@@ -1,0 +1,94 @@
+# JS 数据类型
+
+每种编程语言都有其内置的数据结构, JavaScript 也有其特有的数据结构, 主要有以下 9 种:
+
+1. undefined
+2. boolean
+3. number
+4. string
+5. bigint
+6. symbol
+7. null
+8. object
+9. function
+
+## 判断数据类型
+
+检查 JavaScript 的数据类型的几种方式
+
+### typeof
+
+typeof 判断由 Object 派生的类型时, 结果都是 object
+
+```JavaScript
+const showTypeOf = value => console.log(typeof value);
+
+showTypeOf('string'); // string
+showTypeOf(1024); // number
+showTypeOf(false); // boolean
+showTypeOf(undefined); // undefined
+showTypeOf(Symbol()); // symbol
+showTypeOf(2n ** 53n); // bigint
+
+showTypeOf(Math); // object
+showTypeOf(/[a-z]/); // object
+showTypeOf([1]); // object
+showTypeOf({}); // object
+showTypeOf(null); // object, 历史原因导致
+
+showTypeOf(Array); // function
+showTypeOf(Set); // function
+showTypeOf(Map); // function
+showTypeOf(WeakSet); // function
+showTypeOf(WeakMap); // function
+showTypeOf(() => {}); // function
+```
+
+### instanceof
+
+检测 constructor.prototype 是否存在于 object 的原型链上
+
+实现 instanceof
+
+```JavaScript
+// 实现 instanceof
+const myInstanceof = (source, target) => {
+  if (typeof source !== 'object' || source === null) return false;
+  const R = target.prototype;
+  // getProtypeOf, 读取参数的原型对象
+  let L = Object.getPrototypeOf(source); // source.__proto__
+  while (true) {
+    if (L === null) return false;
+    if (L === R) return true;
+    L = Object.getPrototypeOf(L); // L.__proto__
+  }
+};
+```
+
+### Object.prototype.toString
+
+调用 Object 的 toString 方法, 可以统一返回 "[object Xxx]" 的字符串, Xxx 为具体的数据类型, 首字母为大写
+
+```JavaScript
+const returnType = (o) => Object.prototype.toString.call(o).slice(8, -1)
+
+returnType('string'); // String
+returnType(1024); // Number
+returnType(false); // Boolean
+returnType(undefined); // Undefined
+returnType(Symbol()); // Symbol
+returnType(2n ** 53n); // BigInt
+
+returnType(Math); // Math
+returnType(/[a-z]/); // RegExp
+returnType([1]); // Array
+returnType({}); // Object
+returnType(null); // Null
+
+returnType(Array); // Function
+returnType(Set); // Function
+returnType(Map); // Function
+returnType(WeakSet); // Function
+returnType(WeakMap); // Function
+returnType(() => {}); // Function
+```
