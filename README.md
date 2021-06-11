@@ -8,3 +8,4 @@ JavaScript 相关学习资料和总结
 - [数据类型转换](Basics/002-数据类型转换.md)
 - [原型链](Basics/003-原型链.md)
 - [继承](Basics/004-继承.md)
+- [闭包](Basics/005-闭包.md)
